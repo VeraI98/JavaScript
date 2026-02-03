@@ -1,4 +1,4 @@
-/* function lettersCount(str) {
+function lettersCount(str) {
     const result = {};
 
     for (const char of str.toLowerCase()) {
@@ -8,7 +8,7 @@
     return result;
 }
 
-console.log(lettersCount('aAAbbccde')); */
+console.log(lettersCount('aAAbbccde')); 
 
 // {
 //    a: 3,
@@ -20,7 +20,9 @@ console.log(lettersCount('aAAbbccde')); */
 
 
 
-/*
+
+
+
 function invert(obj) {
     const result = {};
 
@@ -40,8 +42,11 @@ function invert(obj) {
 console.log(invert({ a: 1, b: 2, c: 3 }));
 // { 1: 'a', 2: 'b', 3: 'c' }
 
-console.log(invert({ a: 1, b: 1, c: 2 }));*/
+console.log(invert({ a: 1, b: 1, c: 2 }));
 // { 1: 'b', 2: 'c' }
+
+
+
 
 
 
@@ -88,6 +93,7 @@ function deepEqual(obj1, obj2) {
     return true;
 }
 
+// eslint-disable-next-line no-undef
 deepEqual(firstObject, secondObject); // true
 deepEqual({ a:1, b: 3 }, { b: 2, a: 1}); // false
 deepEqual(1, 2); // false

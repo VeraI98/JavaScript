@@ -13,4 +13,5 @@ function getEligibleRoles(roles, permission, minLevel) {
     return result;
 }
 
+// eslint-disable-next-line no-undef
 getEligibleRoles(roles, "write", 2); // ["admin", "editor"]
