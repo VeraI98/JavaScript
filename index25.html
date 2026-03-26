@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <title>Todo List</title>
+    <link rel="stylesheet" href="/style25.css" />
+    <script src="https://unpkg.com/vue@3"></script>
+</head>
+<body>
+    <div id="app" class="container">
+        <h1>Todo List</h1>
+
+        <div class="input-group">
+        <input v-model="newTodo" placeholder="Новая задача..." />
+        <button @click="add">Добавить</button>
+        </div>
+
+        <div v-if="todos.length === 0" class="empty">
+        Нет задач
+        </div>
+
+        <div v-else class="list">
+        <div
+            v-for="todo in todos"
+            :key="todo.id"
+            class="item"
+        >
+            <span
+            :class="{ done: todo.completed }"
+            @click="toggle(todo.id)"
+            >
+            {{ todo.title }}
+            </span>
+
+            <button class="delete" @click="remove(todo.id)">
+            ✕
+            </button>
+        </div>
+        </div>
+    </div>
+
+    <script>
+        const { createApp, ref, onMounted } = Vue;
+
+        const KEY = "todos";
+
+        function getTodos() {
+        const data = localStorage.getItem(KEY);
+        if (!data) return [];
+        try {
+            return JSON.parse(data);
+        } catch {
+            return [];
+        }
+        }
+
+        function saveTodos(todos) {
+        localStorage.setItem(KEY, JSON.stringify(todos));
+        }
+
+        createApp({
+        setup() {
+            const todos = ref([]);
+            const newTodo = ref("");
+
+            onMounted(() => {
+            todos.value = getTodos();
+            });
+
+            function add() {
+            if (!newTodo.value.trim()) return;
+
+            const todo = {
+                id: Date.now() + Math.random(),
+                title: newTodo.value.trim(),
+                completed: false,
+            };
+
+            todos.value.push(todo);
+            saveTodos(todos.value);
+            newTodo.value = "";
+            }
+
+            function toggle(id) {
+            todos.value = todos.value.map((t) =>
+                Number(t.id) === Number(id)
+                ? { ...t, completed: !t.completed }
+                : t
+            );
+            saveTodos(todos.value);
+            }
+
+            function remove(id) {
+            todos.value = todos.value.filter(
+                (t) => Number(t.id) !== Number(id)
+            );
+            saveTodos(todos.value);
+            }
+
+            return { todos, newTodo, add, toggle, remove };
+        },
+        }).mount("#app");
+    </script>
+</body>
+</html>
